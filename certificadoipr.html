@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certificado Interactivo: Adiestramiento para Encuestadores</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Librerías para PDF y captura de pantalla -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        body {
+            font-family: 'Lato', sans-serif;
+        }
+        h1, h2, h3 {
+            font-family: 'Merriweather', serif;
+        }
+        .certificate {
+            font-family: 'Merriweather', serif;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .seal {
+            width: 100px;
+            height: 100px;
+            background-color: #a0aec0;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 0.9rem;
+            text-align: center;
+            line-height: 1.2;
+            border: 4px solid #718096;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        .action-button {
+            @apply w-full bg-teal-600 text-white font-bold py-3 px-4 rounded-md hover:bg-teal-700 transition duration-300 shadow-md;
+        }
+        .action-button:disabled {
+            @apply bg-gray-400 cursor-not-allowed;
+        }
+    </style>
+</head>
+<body class="bg-stone-50 text-stone-800">
+
+    <!-- Chosen Palette: Warm Neutrals & Subtle Sage -->
+    <!-- Application Structure Plan: La aplicación está diseñada como un portal informativo sobre el programa de adiestramiento, en lugar de ser solo un certificado estático. La estructura sigue un flujo lógico para el usuario: 1) Introducción al programa para establecer el contexto. 2) Un módulo de "Currículo Interactivo" que permite al usuario explorar los temas del adiestramiento, transformando una lista estática en una experiencia de descubrimiento. 3) Una sección de "Generador de Certificado" como la principal llamada a la acción, donde el usuario puede personalizar y visualizar su logro. 4) Secciones finales que presentan a la autoridad emisora. Esta estructura fue elegida porque ofrece un valor añadido más allá del documento original, promoviendo el entendimiento y el compromiso con el contenido del programa, mientras que el generador proporciona la recompensa final y tangible. -->
+    <!-- Visualization & Content Choices: Report Info: Lista de temas del adiestramiento. -> Goal: Organizar y detallar. -> Viz/Presentation: Lista interactiva HTML/CSS/JS. Los usuarios pueden hacer clic en cada tema para ver una breve descripción (simulada para el ejemplo). -> Interaction: Clic para expandir/colapsar información. -> Justification: Transforma una lista pasiva en un elemento de exploración activa, fomentando el interés del usuario en el contenido del curso. Report Info: Campos personalizables (nombre, fecha, horas). -> Goal: Informar y personalizar. -> Viz/Presentation: Un formulario HTML que actualiza dinámicamente una sección de certificado pre-diseñada. -> Interaction: El usuario introduce datos y hace clic en un botón para generar el certificado en la página. -> Justification: Proporciona la funcionalidad principal y la gratificación, permitiendo al usuario ver su logro personalizado al instante. No se utilizaron gráficos (Chart.js) ya que el documento de origen no contiene datos cuantitativos que justifiquen una visualización de este tipo. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8 max-w-5xl">
+
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-stone-900">Adiestramiento para Encuestadores</h1>
+            <p class="mt-4 text-lg text-stone-600">Un programa de la Unidad de Evaluación Programática (UEP)</p>
+        </header>
+
+        <main>
+            <!-- Sección: Sobre el Programa -->
+            <section id="about" class="mb-16 bg-white p-8 rounded-lg shadow-md">
+                <h2 class="text-3xl font-bold mb-4 text-stone-800">Adiestramiento para Encuestadores</h2>
+                <p class="text-stone-700 leading-relaxed">
+                    Contenido del adiestramiento sobre encuestas de percepción: El adiestramiento está diseñado para capacitar a los encuestadores con las habilidades y conocimientos necesarios para la recopilación de datos cruciales en la evaluación del sistema de salud mental y abuso de sustancias. Los participantes adquieren las destrezas que van desde el uso de los instrumentos de encuesta hasta los procedimientos éticos, asegurando la integridad y calidad de la información recolectada.
+                </p>
+            </section>
+
+            <!-- Sección: Currículo Interactivo -->
+            <section id="curriculum" class="mb-16">
+                <h2 class="text-3xl font-bold text-center mb-8 text-stone-800">Currículo Interactivo</h2>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <!-- Los datos del currículo se insertarán aquí con JavaScript -->
+                </div>
+            </section>
+
+            <!-- Sección: Generador de Certificado -->
+            <section id="generator" class="mb-16 bg-white p-8 rounded-lg shadow-md">
+                <h2 class="text-3xl font-bold mb-2 text-stone-800">Genere su Certificado</h2>
+                <p class="text-stone-700 leading-relaxed mb-6">
+                    Utilice el siguiente formulario para generar una vista previa de su certificado de finalización. Ingrese su nombre y los detalles del adiestramiento para personalizar el documento. Una vez generado, podrá ver cómo se acredita su valiosa participación y el haber completado satisfactoriamente el programa.
+                </p>
+                <div class="grid md:grid-cols-2 gap-8 items-start">
+                    <div class="flex flex-col gap-4">
+                        <div>
+                            <label for="participantName" class="block text-sm font-medium text-stone-700 mb-1">Nombre del/a Participante</label>
+                            <input type="text" id="participantName" class="w-full p-2 border border-stone-300 rounded-md shadow-sm focus:ring-teal-500 focus:border-teal-500" placeholder="Ej: Ana Pérez">
+                        </div>
+                        <div>
+                            <label for="trainingDate" class="block text-sm font-medium text-stone-700 mb-1">Fecha del Adiestramiento</label>
+                            <input type="text" id="trainingDate" class="w-full p-2 border border-stone-300 rounded-md shadow-sm focus:ring-teal-500 focus:border-teal-500" placeholder="Ej: 10 de junio de 2025">
+                        </div>
+                        <div>
+                            <label for="trainingHours" class="block text-sm font-medium text-stone-700 mb-1">Horas de Duración</label>
+                            <input type="number" id="trainingHours" class="w-full p-2 border border-stone-300 rounded-md shadow-sm focus:ring-teal-500 focus:border-teal-500" placeholder="Ej: 8">
+                        </div>
+                        <button id="generateBtn" class="action-button">
+                            Generar Certificado
+                        </button>
+                        <button id="downloadPdfBtn" class="action-button bg-blue-600 hover:bg-blue-700" disabled>
+                            Descargar PDF
+                        </button>
+                        <button id="emailCertBtn" class="action-button bg-green-600 hover:bg-green-700" disabled>
+                            Enviar por Correo
+                        </button>
+                    </div>
+
+                    <div id="certificateOutput" class="border-2 border-dashed border-stone-300 rounded-lg p-6 min-h-[300px] flex items-center justify-center">
+                        <span class="text-stone-500">La vista previa del certificado aparecerá aquí.</span>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Sección: Autoridad Emisora -->
+            <section id="authority" class="text-center bg-stone-100 p-8 rounded-lg">
+                <h2 class="text-2xl font-bold mb-4 text-stone-800">Emitido por</h2>
+                <div class="flex flex-col items-center">
+                     <div class="seal mb-4">UEP</div>
+                    <p class="text-xl font-semibold text-stone-900">Dra. Leida M. Soltero Venegas</p>
+                    <p class="text-stone-600">Coordinador/a de Evaluación Programática</p>
+                    <p class="mt-2 text-lg font-bold text-stone-800">Administración de Servicios de Salud Mental y Contra la Adicción</p>
+                    <p class="text-sm text-stone-500">Oficina Central ASSMCA Carr. #2, Marginal Bo. Juan Sánchez Bayamón, PR.</p>
+                </div>
+            </section>
+        </main>
+
+        <footer class="text-center mt-12 pt-6 border-t border-stone-200">
+            <p class="text-sm text-stone-500">&copy; 2025 Unidad de Evaluación Programática. Todos los derechos reservados.</p>
+        </footer>
+    </div>
+
+    <script>
+        const curriculumData = [
+            {
+                title: "Introducción a los instrumentos de encuesta",
+                description: "Se presentan los instrumentos clave como MHSIP y YSSF, explicando su propósito, estructura y aplicación en el campo.",
+                icon: "📊"
+            },
+            {
+                title: "Procedimientos éticos y de consentimiento informado",
+                description: "Un módulo crucial sobre la importancia del consentimiento informado, la voluntariedad de la participación y el respeto a los derechos de los participantes.",
+                icon: "⚖️"
+            },
+            {
+                title: "Manejo adecuado de datos y confidencialidad",
+                description: "Se enseñan las mejores prácticas para garantizar la seguridad y confidencialidad de los datos recopilados, cumpliendo con las normativas de privacidad.",
+                icon: "🔒"
+            },
+            {
+                title: "Estrategias de abordaje y comunicación efectiva",
+                description: "Desarrollo de habilidades de comunicación para establecer una buena relación con los participantes, manejar situaciones difíciles y realizar entrevistas efectivas.",
+                icon: "🗣️"
+            },
+            {
+                title: "Uso de herramientas digitales para recopilación de datos",
+                description: "Capacitación en el software y las plataformas digitales utilizadas para la recolección de datos, asegurando una entrada de información eficiente y sin errores.",
+                icon: "📱"
+            }
+        ];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const curriculumContainer = document.querySelector('#curriculum .grid');
+            curriculumData.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'bg-white p-6 rounded-lg shadow-md cursor-pointer hover:shadow-xl hover:scale-105 transition-transform duration-300';
+                card.innerHTML = `
+                    <div class="flex items-center mb-3">
+                        <span class="text-3xl mr-4">${item.icon}</span>
+                        <h3 class="text-xl font-bold text-stone-800">${item.title}</h3>
+                    </div>
+                    <p class="text-stone-600 hidden">${item.description}</p>
+                `;
+                curriculumContainer.appendChild(card);
+            });
+            
+            curriculumContainer.addEventListener('click', (e) => {
+                const card = e.target.closest('.bg-white');
+                if (card) {
+                    const description = card.querySelector('p');
+                    description.classList.toggle('hidden');
+                }
+            });
+
+            const generateBtn = document.getElementById('generateBtn');
+            const certificateOutput = document.getElementById('certificateOutput');
+            const downloadPdfBtn = document.getElementById('downloadPdfBtn');
+            const emailCertBtn = document.getElementById('emailCertBtn');
+
+            generateBtn.addEventListener('click', () => {
+                const participantName = document.getElementById('participantName').value.trim();
+                const trainingDate = document.getElementById('trainingDate').value.trim();
+                const trainingHours = document.getElementById('trainingHours').value.trim();
+
+                if (!participantName || !trainingDate || !trainingHours) {
+                    certificateOutput.innerHTML = `<span class="text-red-500 font-bold">Por favor, complete todos los campos.</span>`;
+                    downloadPdfBtn.disabled = true;
+                    emailCertBtn.disabled = true;
+                    return;
+                }
+
+                certificateOutput.innerHTML = `
+                    <div id="certificateContent" class="certificate w-full bg-slate-50 border-2 border-stone-800 p-6 text-center rounded-lg shadow-inner">
+                        <h3 class="text-sm uppercase tracking-widest text-stone-600">Certificado de Finalización de Adiestramiento</h3>
+                        <p class="text-sm text-stone-500 mt-2 mb-4">otorgado a:</p>
+                        <p class="text-3xl font-bold text-teal-800 mb-4">${participantName}</p>
+                        <p class="text-sm text-stone-600 leading-relaxed">
+                            Por haber completado satisfactoriamente el Adiestramiento para Encuestadores, llevado a cabo el día
+                            <strong class="text-stone-800">${trainingDate}</strong> con una duración de <strong class="text-stone-800">${trainingHours} horas</strong>.
+                        </p>
+                        <div class="flex justify-center mt-6">
+                            <div class="seal">UEP</div>
+                        </div>
+                    </div>
+                `;
+                downloadPdfBtn.disabled = false;
+                emailCertBtn.disabled = false;
+            });
+
+            downloadPdfBtn.addEventListener('click', () => {
+                const certificateContent = document.getElementById('certificateContent');
+                if (!certificateContent) {
+                    alert('Primero debe generar el certificado.');
+                    return;
+                }
+
+                downloadPdfBtn.textContent = 'Generando PDF...';
+                downloadPdfBtn.disabled = true;
+
+                // For PDF, ensure proper scaling and capture of the certificate content
+                html2canvas(certificateContent, { scale: 2 }).then(canvas => {
+                    const imgData = canvas.toDataURL('image/png');
+                    const pdf = new window.jspdf.jsPDF({
+                        orientation: 'landscape',
+                        unit: 'px',
+                        format: [canvas.width, canvas.height] // Use canvas dimensions
+                    });
+
+                    pdf.addImage(imgData, 'PNG', 0, 0, canvas.width, canvas.height);
+                    pdf.save('Certificado_Adiestramiento.pdf');
+                    downloadPdfBtn.textContent = 'Descargar PDF';
+                    downloadPdfBtn.disabled = false;
+                }).catch(error => {
+                    console.error('Error al generar PDF:', error);
+                    alert('Error al generar el PDF. Inténtelo de nuevo.');
+                    downloadPdfBtn.textContent = 'Descargar PDF';
+                    downloadPdfBtn.disabled = false;
+                });
+            });
+
+            emailCertBtn.addEventListener('click', () => {
+                const participantName = document.getElementById('participantName').value.trim();
+                const trainingDate = document.getElementById('trainingDate').value.trim();
+
+                if (!participantName) {
+                    alert('Por favor, ingrese el nombre del participante para el correo.');
+                    return;
+                }
+
+                const subject = encodeURIComponent(`Certificado de Finalización de Adiestramiento - ${participantName}`);
+                const body = encodeURIComponent(
+                    `Estimado/a ${participantName},\n\n` +
+                    `Adjunto encontrará su certificado de participación en el Adiestramiento para Encuestadores, llevado a cabo el ${trainingDate}.\n\n` +
+                    `Felicitaciones por completar satisfactoriamente el adiestramiento.\n\n` +
+                    `Saludos,\n` +
+                    `Unidad de Evaluación Programática (UEP)`
+                );
+                window.location.href = `mailto:?subject=${subject}&body=${body}`;
+            });
+        });
+    </script>
+</body>
+</html>
