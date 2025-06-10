@@ -22,6 +22,7 @@
             font-family: 'Merriweather', serif;
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
         }
+        /* Default seal style (for the static UEP seal outside the generated cert) */
         .seal {
             width: 100px;
             height: 100px;
@@ -48,7 +49,7 @@
 </head>
 <body class="bg-stone-50 text-stone-800">
 
-    <!-- Chosen Palette: Warm Neutrals & Subtle Sage -->
+    <!-- Chosen Palette: Blue hues for certificate, warm neutrals for main page, silver for UEP seal -->
     <!-- Application Structure Plan: La aplicación está diseñada como un portal informativo sobre el programa de adiestramiento, en lugar de ser solo un certificado estático. La estructura sigue un flujo lógico para el usuario: 1) Introducción al programa para establecer el contexto. 2) Un módulo de "Currículo Interactivo" que permite al usuario explorar los temas del adiestramiento, transformando una lista estática en una experiencia de descubrimiento. 3) Una sección de "Generador de Certificado" como la principal llamada a la acción, donde el usuario puede personalizar y visualizar su logro. 4) Secciones finales que presentan a la autoridad emisora. Esta estructura fue elegida porque ofrece un valor añadido más allá del documento original, promoviendo el entendimiento y el compromiso con el contenido del programa, mientras que el generador proporciona la recompensa final y tangible. -->
     <!-- Visualization & Content Choices: Report Info: Lista de temas del adiestramiento. -> Goal: Organizar y detallar. -> Viz/Presentation: Lista interactiva HTML/CSS/JS. Los usuarios pueden hacer clic en cada tema para ver una breve descripción (simulada para el ejemplo). -> Interaction: Clic para expandir/colapsar información. -> Justification: Transforma una lista pasiva en un elemento de exploración activa, fomentando el interés del usuario en el contenido del curso. Report Info: Campos personalizables (nombre, fecha, horas). -> Goal: Informar y personalizar. -> Viz/Presentation: Un formulario HTML que actualiza dinámicamente una sección de certificado pre-diseñada. -> Interaction: El usuario introduce datos y hace clic en un botón para generar el certificado en la página. -> Justification: Proporciona la funcionalidad principal y la gratificación, permitiendo al usuario ver su logro personalizado al instante. No se utilizaron gráficos (Chart.js) ya que el documento de origen no contiene datos cuantitativos que justifiquen una visualización de este tipo. -->
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
@@ -202,16 +203,16 @@
                 }
 
                 certificateOutput.innerHTML = `
-                    <div id="certificateContent" class="certificate w-full bg-slate-50 border-2 border-stone-800 p-6 text-center rounded-lg shadow-inner">
-                        <h3 class="text-sm uppercase tracking-widest text-stone-600">Certificado de Finalización de Adiestramiento</h3>
-                        <p class="text-sm text-stone-500 mt-2 mb-4">otorgado a:</p>
-                        <p class="text-3xl font-bold text-teal-800 mb-4">${participantName}</p>
-                        <p class="text-sm text-stone-600 leading-relaxed">
+                    <div id="certificateContent" class="certificate w-full bg-blue-800 border-2 border-blue-900 p-6 text-center rounded-lg shadow-inner text-white">
+                        <h3 class="text-sm uppercase tracking-widest text-white">Certificado de Finalización de Adiestramiento</h3>
+                        <p class="text-sm text-white mt-2 mb-4">otorgado a:</p>
+                        <p class="text-3xl font-bold text-white mb-4">${participantName}</p>
+                        <p class="text-sm text-white leading-relaxed">
                             Por haber completado satisfactoriamente el Adiestramiento para Encuestadores, llevado a cabo el día
-                            <strong class="text-stone-800">${trainingDate}</strong> con una duración de <strong class="text-stone-800">${trainingHours} horas</strong>.
+                            <strong class="text-white">${trainingDate}</strong> con una duración de <strong class="text-white">${trainingHours} horas</strong>.
                         </p>
                         <div class="flex justify-center mt-6">
-                            <div class="seal">UEP</div>
+                            <div class="seal bg-gray-300 text-gray-800 border-gray-500">UEP</div>
                         </div>
                     </div>
                 `;
@@ -231,11 +232,20 @@
 
                 // For PDF, ensure proper scaling and capture of the certificate content
                 html2canvas(certificateContent, { scale: 2 }).then(canvas => {
+                    // Check if canvas has valid dimensions
+                    if (canvas.width === 0 || canvas.height === 0) {
+                        console.error('Canvas dimensions are zero, cannot generate PDF.');
+                        alert('Error: No se pudo capturar el contenido del certificado. Inténtelo de nuevo.');
+                        downloadPdfBtn.textContent = 'Descargar PDF';
+                        downloadPdfBtn.disabled = false;
+                        return;
+                    }
+
                     const imgData = canvas.toDataURL('image/png');
                     const pdf = new window.jspdf.jsPDF({
-                        orientation: 'landscape',
+                        orientation: 'landscape', // Already set to landscape
                         unit: 'px',
-                        format: [canvas.width, canvas.height] // Use canvas dimensions
+                        format: [canvas.width, canvas.height] // Use canvas dimensions for format
                     });
 
                     pdf.addImage(imgData, 'PNG', 0, 0, canvas.width, canvas.height);
